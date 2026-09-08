@@ -46,7 +46,7 @@ export default function Home() {
     return (
         <main className="min-h-screen bg-[#f5f6f7]">
             <div className="mx-auto max-w-5xl">
-                <section className="pt-3 pb-2">
+                <section className="p-5 pb-2">
                     <div className="rounded-3xl border bg-white p-5 shadow-sm">
                         <p className="text-sm font-medium text-gray-500">
                             Today&apos;s spending
