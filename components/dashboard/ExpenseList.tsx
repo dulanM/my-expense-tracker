@@ -4,9 +4,10 @@ import { ExpenseItem } from "./ExpenseItem";
 interface ExpenseListProps {
   title: string;
   expenses: Expense[];
+  onEdit: (expense: Expense) => void;
 }
 
-export function ExpenseList({ title, expenses }: ExpenseListProps) {
+export function ExpenseList({ title, expenses, onEdit}: ExpenseListProps) {
   return (
     <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-md">
       <h2 className="px-3 pb-1 pt-3 text-sm font-semibold text-gray-900">{title}</h2>
@@ -15,7 +16,7 @@ export function ExpenseList({ title, expenses }: ExpenseListProps) {
       ) : (
         <ul className="divide-y divide-border/70">
           {expenses.map((expense) => (
-            <ExpenseItem key={expense.id} expense={expense}/>
+            <ExpenseItem key={expense.id} expense={expense} onEdit={onEdit}/>
           ))}
         </ul>
       )}

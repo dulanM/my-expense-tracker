@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     const docRef = await adminDb.collection("expenses").add({
       ...parsedExpense,
-      rawPayload: body,
+      rawPayload: message,
       createdAt: FieldValue.serverTimestamp(),
     });
 
@@ -48,6 +48,116 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         error: error?.message || "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const snapshot = await adminDb
+      .collection("expenses")
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const expenses = snapshot.docs.map((doc) => {
+      const data = doc.data();
+
+      return {
+        id: doc.id,
+        merchant: data.merchant,
+        amount: data.amount,
+        currency: data.currency,
+        category: data.category,
+        date: data.date,
+        time: data.time,
+      };
+    });
+
+    return NextResponse.json({
+      success: true,
+      expenses,
+    });
+  } catch (error: any) {
+    console.error("Get expenses error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: error?.message || "Unknown error",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = await params;
+    const body = await request.json();
+
+    if (!body.category) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Category is required",
+        },
+        { status: 400 }
+      );
+    }
+
+    await adminDb
+      .collection("expenses")
+      .doc(id)
+      .update({
+        category: body.category,
+      });
+
+    return NextResponse.json({
+      success: true,
+      id,
+      category: body.category,
+    });
+  } catch (error: any) {
+    console.error("Update expense error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: error?.message || "Failed to update expense",
+      },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id } = await params;
+
+    await adminDb
+      .collection("expenses")
+      .doc(id)
+      .delete();
+
+    return NextResponse.json({
+      success: true,
+      id,
+    });
+  } catch (error: any) {
+    console.error("Delete expense error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error: error?.message || "Failed to delete expense",
       },
       { status: 500 }
     );
