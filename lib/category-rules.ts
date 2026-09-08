@@ -14,6 +14,7 @@ const categoryRules: Record<
     "MCDONALDS",
     "PIZZA HUT",
     "DOMINOS",
+    "BARITSA"
   ],
 
   Fuel: [
