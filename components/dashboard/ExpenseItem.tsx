@@ -26,7 +26,7 @@ export function ExpenseItem({ expense, onEdit }: ExpenseItemProps) {
                     </span>
 
                     <span className="block truncate text-xs text-gray-500">
-                        {expense.category} · {formatTime(expense.date)}
+                        {expense.category} · {expense.time}
                     </span>
                 </span>
 
