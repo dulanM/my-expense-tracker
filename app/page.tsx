@@ -3,7 +3,7 @@ import { CategoryCard } from "@/components/dashboard/CategoryCard";
 import EditExpenseDialog from "@/components/dashboard/EditExpenseDialog";
 import { ExpenseList } from "@/components/dashboard/ExpenseList";
 import { MonthlySpending } from "@/components/dashboard/MonthlySpending";
-import { getCategoryExpenseTotals, getCurrentMonthCategoryTotals, getCurrentMonthTotal } from "@/lib/expense-utils";
+import { getCategoryExpenseTotals, getCurrentMonthCategoryTotals, getCurrentMonthTotal, getTodayExpenses } from "@/lib/expense-utils";
 import { Expense } from "@/types/expense";
 import { useState, useEffect } from "react";
 
@@ -14,6 +14,7 @@ export default function Home() {
     const categoryTotals = getCategoryExpenseTotals(expenses);
     const monthlyTotal = getCurrentMonthTotal(expenses);
     const monthlyCategoryTotals = getCurrentMonthCategoryTotals(expenses);
+    const todayExpenses = getTodayExpenses(expenses);
 
     async function loadExpenses() {
         try {
@@ -39,7 +40,7 @@ export default function Home() {
         loadExpenses();
     }, []);
 
-    const todayTotal = expenses.reduce(
+    const todayTotal = todayExpenses.reduce(
         (total, expense) => total + expense.amount,
         0
     );
@@ -73,7 +74,7 @@ export default function Home() {
                 <div className="space-y-5 px-5">
                     <ExpenseList
                         title="Today's expenses"
-                        expenses={expenses}
+                        expenses={todayExpenses}
                         onEdit={setEditing} />
 
                     <MonthlySpending

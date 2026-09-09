@@ -1,21 +1,29 @@
 import { Expense, ExpenseCategory } from "@/types/expense";
 
 export function getCategoryExpenseTotals(expenses: Expense[]) {
+  const now = new Date();
   return expenses.reduce(
     (totals, expense) => {
-      const existingCategory = totals.find(
-        (item) => item.categoryName === expense.category
-      );
+      const expenseDate = new Date(expense.date);
 
-      if (existingCategory) {
-        existingCategory.expenseTotal += expense.amount;
-      } else {
-        totals.push({
-          categoryName: expense.category,
-          expenseTotal: expense.amount,
-        });
+      if (
+        expenseDate.getFullYear() === now.getFullYear() &&
+        expenseDate.getMonth() === now.getMonth() &&
+        expenseDate.getDate() === now.getDate()
+      ) {
+        const existingCategory = totals.find(
+          (item) => item.categoryName === expense.category
+        );
+
+        if (existingCategory) {
+          existingCategory.expenseTotal += expense.amount;
+        } else {
+          totals.push({
+            categoryName: expense.category,
+            expenseTotal: expense.amount,
+          });
+        }
       }
-
       return totals;
     },
     [] as {
@@ -78,4 +86,17 @@ export function getCurrentMonthCategoryTotals(
   });
 
   return totals;
+}
+
+export function getTodayExpenses(expenses: Expense[]) {
+  const today = new Date();
+  const todayString = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("-");
+
+  return expenses.filter(
+    (expense) => expense.date === todayString
+  );
 }
