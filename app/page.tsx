@@ -18,19 +18,14 @@ export default function Home() {
 
     async function loadExpenses() {
         try {
-
             const response = await fetch("/api/expenses");
-
             if (!response.ok) {
                 throw new Error("Failed to fetch expenses");
             }
-
             const data = await response.json();
-
             if (!data.success) {
                 throw new Error(data.error || "Failed to fetch expenses");
             }
-
             setExpenses(data.expenses);
         } catch (error) {
             console.error(error);
@@ -58,7 +53,7 @@ export default function Home() {
                         </h2>
 
                         <p className="mt-2 text-sm text-gray-500">
-                            {expenses.length} transactions
+                            {todayExpenses.length} transactions
                         </p>
                     </div>
                 </section>
