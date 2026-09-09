@@ -1,8 +1,8 @@
-import { Car, Film, Fuel, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { Car, Film, Fuel, ShoppingBasket, Stethoscope, UtensilsCrossed, type LucideIcon } from "lucide-react";
 
-export type ExpenseCategory = "Food" | "Fuel" | "Entertainment" | "Transport";
+export type ExpenseCategory = "Food" | "Fuel" | "Entertainment" | "Transport"| "Medical" | "Grocery";
 
-export const CATEGORIES: ExpenseCategory[] = ["Food", "Fuel", "Entertainment", "Transport"];
+export const CATEGORIES: ExpenseCategory[] = ["Food", "Fuel", "Entertainment", "Transport", "Medical", "Grocery",];
 
 export const CATEGORY_META: Record<
     ExpenseCategory,
@@ -27,6 +27,17 @@ export const CATEGORY_META: Record<
         icon: Car,
         tint: "bg-green-100 text-green-600",
         color: "#22c55e",
+    },
+    Medical: {
+        icon: Stethoscope,
+        tint: "bg-red-100 text-red-600",
+        color: "#ef4444",
+    },
+
+    Grocery: {
+        icon: ShoppingBasket,
+        tint: "bg-yellow-100 text-yellow-600",
+        color: "#eab308",
     },
 };
 

@@ -72,6 +72,8 @@ export function getCurrentMonthCategoryTotals(
     Fuel: 0,
     Entertainment: 0,
     Transport: 0,
+    Medical: 0,
+    Grocery: 0,
   };
 
   expenses.forEach((expense) => {
